@@ -1,25 +1,18 @@
-dist: xenial
+sudo: required
+language: java
+jdk: oraclejdk8
 
 services:
   - docker
+env:
+  global: COMMIT=${TRAVIS_COMMIT::7}
 
-language: java
-
-jdk:
-  - openjdk8
-
-before_install:
-  - mvn clean
-  - echo "$DOCKER_PASS" | docker login  -u "$DOCKER_USER" --password-stdin
-  - docker pull openjdk:8-jdk-alpine
+script: ./mvnw clean install -B
 
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  - export TAG=latest
   - export IMAGE_NAME=politecnico/organization-service
   - docker build -t $IMAGE_NAME:$COMMIT .
   - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
   - docker push $IMAGE_NAME
-install:
-  - mvn -N io.takari:maven:wrapper
-  - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
