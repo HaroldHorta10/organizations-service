@@ -26,7 +26,7 @@ public class OrganizationService {
     }
 
     public Organization get(Long id) {
-        return organizationRepository.findById(id).orElseThrow(() -> new ErrorResponse("Organization not found"));
+        return organizationRepository.findById(id).orElseThrow(() -> new ErrorResponse("Organizations not found"));
     }
 
 }
