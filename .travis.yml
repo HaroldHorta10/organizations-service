@@ -1,6 +1,18 @@
+dist: xenial
+
+services:
+  - docker
+
 language: java
-sudo: true
-dist: trusty
-jdk: openjdk8
+
+jdk:
+  - openjdk8
+
 before_install:
-  - chmod +x mvnw
+  - mvn clean
+  - echo "$DOCKER_PASS" | docker login  -u "$DOCKER_USER" --password-stdin
+  - docker pull openjdk:8-jdk-alpine
+
+install:
+  - mvn -N io.takari:maven:wrapper
+  - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
