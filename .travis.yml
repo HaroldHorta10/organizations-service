@@ -4,8 +4,6 @@ jdk: oraclejdk8
 
 services:
   - docker
-env:
-  global: COMMIT=${TRAVIS_COMMIT::7}
 
 script: ./mvnw clean install -B
 
@@ -13,8 +11,8 @@ after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export TAG=latest
   - export IMAGE_NAME=politecnico/organization-service
-  - docker build -t $IMAGE_NAME:$COMMIT .
-  - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+  - docker build -t $IMAGE_NAME:1 .
+  - docker tag $IMAGE_NAME:1 $IMAGE_NAME:$TAG
   - docker push $IMAGE_NAME
 install:
   - mvn -N io.takari:maven:wrapper
