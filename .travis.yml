@@ -7,6 +7,9 @@ services:
 
 script: ./mvnw clean install -B
 
+before_install:
+  - chmod +x mvnw
+
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export TAG=latest
