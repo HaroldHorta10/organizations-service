@@ -16,7 +16,7 @@ install:
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export TAG=latest
-  - export IMAGE_NAME=politecnico/organization-service
+  - export IMAGE_NAME=politecnico-organization-service
   - docker build -t $IMAGE_NAME:1 .
   - docker tag $IMAGE_NAME:1 $IMAGE_NAME:$TAG
   - docker push $IMAGE_NAME
