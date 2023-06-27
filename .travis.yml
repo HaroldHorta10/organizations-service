@@ -15,5 +15,4 @@ after_success:
   - docker tag $IMAGE_NAME:1 $IMAGE_NAME:$TAG
   - docker push $IMAGE_NAME
 install:
-  - mvn -N io.takari:maven:wrapper
   - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
